@@ -27,7 +27,7 @@ This is a single HTML file — no server, no build step, no dependencies.
 
 **Option 1: Open on GitHub Pages**
 
-<https://acepeda2019.github.io/retirement-calculator>
+<https://acepeda2019.github.io/retirement_calculator>
 
 **Option 2: Open directly in a browser**
 
