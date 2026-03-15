@@ -8,253 +8,389 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg:        #1a1917;
-    --bg2:       #222120;
-    --bg3:       #2a2927;
-    --bg4:       #333230;
-    --border:    rgba(255,255,255,0.08);
-    --border2:   rgba(255,255,255,0.13);
-    --text:      #e8e6e1;
-    --text2:     #9c9a92;
-    --text3:     #5c5b56;
-    --accent:    #c2955a;
-    --accent-bg: rgba(194,149,90,0.12);
-    --green:     #5dcaa5;
-    --green-bg:  rgba(93,202,165,0.1);
-    --blue:      #85b7eb;
-    --blue-bg:   rgba(133,183,235,0.1);
-    --purple:    #afa9ec;
-    --purple-bg: rgba(175,169,236,0.1);
-  }
+:root {
+  --bg:        #1a1917;
+  --bg2:       #222120;
+  --bg3:       #2a2927;
+  --bg4:       #333230;
+  --border:    rgba(255,255,255,0.08);
+  --border2:   rgba(255,255,255,0.14);
+  --text:      #e8e6e1;
+  --text2:     #9c9a92;
+  --text3:     #5c5b56;
+  --accent:    #c2955a;
+  --accent-bg: rgba(194,149,90,0.12);
+  --green:     #5dcaa5;
+  --green-bg:  rgba(93,202,165,0.1);
+  --blue:      #85b7eb;
+  --blue-bg:   rgba(133,183,235,0.12);
+  --purple:    #afa9ec;
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.6;
+}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 16px;
-    line-height: 1.6;
-  }
+/* ── HERO ── */
+.hero {
+  padding: 4.5rem 2rem 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(194,149,90,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1rem; font-weight: 500;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  line-height: 1.06; margin-bottom: 1rem;
+  letter-spacing: -0.02em; color: var(--text);
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  font-size: 0.95rem; color: var(--text2);
+  max-width: 440px; margin: 0 auto;
+  font-weight: 300; line-height: 1.7;
+}
 
-  /* HERO */
-  .hero {
-    padding: 5rem 2rem 4rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(194,149,90,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.25rem;
-    font-weight: 500;
-  }
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.6rem, 6vw, 4.5rem);
-    line-height: 1.05;
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero-sub {
-    font-size: 1rem;
-    color: var(--text2);
-    max-width: 460px;
-    margin: 0 auto;
-    font-weight: 300;
-    line-height: 1.7;
-  }
+/* ── NAV PILLS ── */
+.section-nav {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.nav-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 16px; border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer; text-decoration: none;
+  transition: all 0.15s;
+}
+.nav-pill:hover { border-color: var(--border2); color: var(--text); }
+.nav-pill .pill-num {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--bg3); color: var(--text3);
+  font-size: 10px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+}
 
-  /* MAIN */
-  .main {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 5rem;
-  }
+/* ── MAIN ── */
+.main { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem 5rem; }
 
-  /* INPUTS */
-  .inputs-section {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem 2rem 2rem;
-    margin-bottom: 1.5rem;
-  }
-  .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    margin-bottom: 0.3rem;
-    color: var(--text);
-  }
-  .section-sub {
-    font-size: 13px;
-    color: var(--text2);
-    margin-bottom: 1.75rem;
-  }
-  .inputs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.25rem;
-  }
-  .field { display: flex; flex-direction: column; gap: 7px; }
-  .field label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
-  .field-inner { position: relative; display: flex; align-items: center; }
-  .field-prefix {
-    position: absolute; left: 13px;
-    font-size: 14px; color: var(--text3);
-    pointer-events: none; font-weight: 400;
-  }
-  .field-suffix {
-    position: absolute; right: 13px;
-    font-size: 12px; color: var(--text3);
-    pointer-events: none;
-  }
-  input[type="number"] {
-    width: 100%; height: 44px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg3);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px; font-weight: 500;
-    color: var(--text);
-    padding: 0 38px 0 30px;
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    -moz-appearance: textfield;
-  }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-  input[type="number"]:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-bg);
-    background: var(--bg4);
-  }
+/* ── SECTION BLOCK ── */
+.section-block {
+  padding-top: 3rem;
+  margin-bottom: 0.5rem;
+}
+.section-header {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 1.75rem;
+}
+.section-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text3); font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.section-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.6rem; color: var(--text); line-height: 1.1;
+}
+.section-heading small {
+  display: block; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 400; color: var(--text2);
+  margin-top: 3px; font-style: normal;
+}
+.section-divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 3rem 0 0;
+}
 
-  /* RESULT CARDS */
-  .results-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 1.5rem;
-  }
-  @media (max-width: 680px) { .results-grid { grid-template-columns: repeat(2,1fr); } }
+/* ── INPUTS ── */
+.inputs-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.75rem 2rem;
+}
+.inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1.25rem;
+}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label-row { display: flex; align-items: center; gap: 5px; }
+.field-label-row label {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--text3);
+}
+.info-btn {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1px solid var(--text3); background: transparent;
+  color: var(--text3); font-size: 9px; font-weight: 700;
+  font-family: Georgia, serif; cursor: default;
+  display: inline-flex; align-items: center; justify-content: center;
+  position: relative; flex-shrink: 0; line-height: 1;
+  transition: border-color 0.15s, color 0.15s; user-select: none;
+}
+.info-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tooltip-popup {
+  display: none; position: absolute;
+  bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  width: 230px; background: var(--bg4);
+  border: 1px solid var(--border2); border-radius: 8px;
+  padding: 10px 12px; font-size: 12px; font-family: 'DM Sans', sans-serif;
+  color: var(--text2); line-height: 1.55; z-index: 200;
+  pointer-events: none; text-transform: none; letter-spacing: 0; font-weight: 400;
+}
+.tooltip-popup::after {
+  content: ''; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--bg4);
+}
+.info-btn:hover .tooltip-popup { display: block; }
 
-  .result-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.1rem 1.25rem;
-  }
-  .result-card.accent { border-color: rgba(194,149,90,0.3); background: var(--accent-bg); }
-  .result-card.green  { border-color: rgba(93,202,165,0.25); background: var(--green-bg); }
-  .result-label {
-    font-size: 11px; font-weight: 500;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--text3); margin-bottom: 5px;
-  }
-  .result-card.accent .result-label { color: rgba(194,149,90,0.7); }
-  .result-card.green .result-label  { color: rgba(93,202,165,0.7); }
-  .result-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.55rem; line-height: 1.1;
-    color: var(--text);
-  }
-  .result-card.accent .result-value { color: var(--accent); }
-  .result-card.green .result-value  { color: var(--green); }
-  .result-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.field-inner { position: relative; display: flex; align-items: center; }
+.field-prefix {
+  position: absolute; left: 13px; font-size: 14px;
+  color: var(--text3); pointer-events: none; font-weight: 400;
+}
+.field-suffix {
+  position: absolute; right: 13px; font-size: 12px;
+  color: var(--text3); pointer-events: none;
+}
+.field-inner input {
+  width: 100%; height: 44px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg3); font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 500; color: var(--text);
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+  -moz-appearance: textfield;
+}
+.field-inner input[type="number"]::-webkit-inner-spin-button,
+.field-inner input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.field-inner input:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg);
+  background: var(--bg4);
+}
+.field-inner input.has-prefix { padding: 0 13px 0 30px; }
+.field-inner input.has-suffix { padding: 0 44px 0 13px; }
+.field-inner input.plain      { padding: 0 44px 0 13px; }
 
-  /* CHART PANELS */
-  .chart-panel {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem 1.75rem 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  .chart-header {
-    display: flex; align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap; gap: 8px;
-  }
-  .chart-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem; color: var(--text);
-  }
-  .chart-legend { display: flex; gap: 14px; flex-wrap: wrap; }
-  .legend-item {
-    display: flex; align-items: center;
-    gap: 6px; font-size: 12px; color: var(--text2);
-  }
-  .legend-dot { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-  .chart-wrap { position: relative; height: 280px; }
+/* ── ACCUMULATION SECTION ── */
+.accum-summary {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 680px) { .accum-summary { grid-template-columns: repeat(2,1fr); } }
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1rem 1.1rem;
+}
+.stat-card.hl-accent { border-color: rgba(194,149,90,0.3); background: var(--accent-bg); }
+.stat-card.hl-green  { border-color: rgba(93,202,165,0.25); background: var(--green-bg); }
+.stat-card.hl-blue   { border-color: rgba(133,183,235,0.25); background: var(--blue-bg); }
+.stat-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 4px;
+}
+.stat-card.hl-accent .stat-label { color: rgba(194,149,90,0.65); }
+.stat-card.hl-green  .stat-label { color: rgba(93,202,165,0.65); }
+.stat-card.hl-blue   .stat-label { color: rgba(133,183,235,0.65); }
+.stat-value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem; line-height: 1.1; color: var(--text);
+}
+.stat-card.hl-accent .stat-value { color: var(--accent); }
+.stat-card.hl-green  .stat-value { color: var(--green); }
+.stat-card.hl-blue   .stat-value { color: var(--blue); }
+.stat-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
-  /* EXPLAINERS */
-  .explainer-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-  @media (max-width: 600px) { .explainer-grid { grid-template-columns: 1fr; } }
-  .explainer-card {
-    border: 1px solid var(--border);
-    border-radius: 12px; padding: 1.25rem 1.4rem;
-    background: var(--bg2);
-  }
-  .badge {
-    display: inline-block; font-size: 10px; font-weight: 500;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 3px 9px; border-radius: 4px; margin-bottom: 9px;
-  }
-  .badge-gold   { background: var(--accent-bg); color: var(--accent); }
-  .badge-green  { background: var(--green-bg);  color: var(--green); }
-  .explainer-card h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1rem; margin-bottom: 0.4rem; color: var(--text);
-  }
-  .explainer-card p { font-size: 13px; color: var(--text2); line-height: 1.65; }
+.chart-panel {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.5rem 1.5rem 1.1rem;
+}
+.chart-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 1.1rem; flex-wrap: wrap; gap: 8px;
+}
+.chart-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--text); }
+.chart-legend { display: flex; gap: 14px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+.legend-dot  { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.chart-wrap  { position: relative; }
 
-  /* FOOTER */
-  footer {
-    text-align: center; padding: 2rem;
-    font-size: 12px; color: var(--text3);
-    border-top: 1px solid var(--border);
-  }
+/* ── INCOME SENSITIVITY ── */
+.age-grid-single {
+  display: flex; gap: 6px; flex-wrap: nowrap;
+  overflow-x: auto; margin-bottom: 1.5rem;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.age-grid-single::-webkit-scrollbar { display: none; }
+.age-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.45rem 0.7rem;
+  text-align: center; cursor: pointer; flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.age-card:hover { border-color: var(--border2); }
+.age-card.active {
+  border-color: var(--blue); background: var(--blue-bg);
+}
+.age-card .ac-age {
+  font-size: 13px; font-weight: 500; color: var(--text);
+  white-space: nowrap;
+}
+.age-card.active .ac-age { color: var(--blue); }
+.age-card .ac-bal { font-size: 11px; color: var(--text3); white-space: nowrap; }
+.age-card.active .ac-bal { color: var(--blue); opacity: 0.8; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .inputs-section { animation: fadeUp 0.4s ease both; }
-  .results-grid   { animation: fadeUp 0.4s ease 0.05s both; }
-  .chart-panel    { animation: fadeUp 0.4s ease 0.1s  both; }
-  .explainer-grid { animation: fadeUp 0.4s ease 0.15s both; }
+/* Income panels */
+.income-panels {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 700px) { .income-panels { grid-template-columns: 1fr; } }
+.income-panel {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.25rem 1.4rem;
+}
+.income-panel-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--text3); margin-bottom: 6px;
+}
+.income-panel-amount {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem; line-height: 1.05; margin-bottom: 4px;
+}
+.income-panel-amount.blue   { color: var(--blue); }
+.income-panel-amount.green  { color: var(--green); }
+.income-panel-desc {
+  font-size: 12px; color: var(--text2); margin-bottom: 14px;
+}
+.income-panel-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.ipstat {
+  background: var(--bg3); border-radius: 8px; padding: 0.6rem 0.8rem;
+}
+.ipstat .ipl { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
+.ipstat .ipv { font-size: 13px; font-weight: 500; color: var(--text); }
 
-  @media (max-width: 580px) {
-    .inputs-section, .chart-panel { padding: 1.25rem; }
-  }
+/* Income charts side by side */
+.income-charts {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 700px) { .income-charts { grid-template-columns: 1fr; } }
+.income-chart-panel {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.25rem 1.25rem 1rem;
+}
+.income-chart-title {
+  font-size: 13px; font-weight: 500; color: var(--text2);
+  margin-bottom: 0.75rem;
+}
+.income-chart-wrap { position: relative; height: 220px; }
+
+/* Sensitivity table */
+.sa-table-panel {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+}
+.sa-table-header {
+  padding: 1rem 1.4rem; border-bottom: 1px solid var(--border);
+  font-size: 13px; font-weight: 500; color: var(--text2);
+}
+.sa-table-wrap { overflow-x: auto; }
+table.sa-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.sa-table th {
+  text-align: left; padding: 9px 14px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--text3); border-bottom: 1px solid var(--border);
+  white-space: nowrap; background: var(--bg3);
+}
+table.sa-table td {
+  padding: 11px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text2); white-space: nowrap;
+}
+table.sa-table tbody tr:last-child td { border-bottom: none; }
+table.sa-table td:first-child { font-weight: 500; color: var(--text); }
+table.sa-table tr.sa-me td { background: var(--blue-bg); }
+table.sa-table tr.sa-me td:first-child { color: var(--blue); }
+table.sa-table tr.sa-me td { color: rgba(133,183,235,0.85); }
+.sa-badge {
+  display: inline-block; font-size: 10px; font-weight: 500;
+  padding: 2px 7px; border-radius: 3px; margin-left: 6px;
+  vertical-align: middle;
+}
+.sa-badge.plus  { background: var(--green-bg);         color: var(--green); }
+.sa-badge.minus { background: rgba(224,75,74,0.1);      color: #e24b4a; }
+.sa-badge.me    { background: var(--blue-bg);           color: var(--blue); }
+
+/* Explainer cards */
+.explainer-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 600px) { .explainer-grid { grid-template-columns: 1fr; } }
+.explainer-card {
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.1rem 1.25rem; background: var(--bg2);
+}
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 3px; margin-bottom: 7px;
+}
+.badge-blue  { background: var(--blue-bg);  color: var(--blue); }
+.badge-green { background: var(--green-bg); color: var(--green); }
+.explainer-card h3 {
+  font-family: 'DM Serif Display', serif; font-size: 0.95rem;
+  margin-bottom: 0.35rem; color: var(--text);
+}
+.explainer-card p { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+footer {
+  text-align: center; padding: 2rem;
+  font-size: 12px; color: var(--text3);
+  border-top: 1px solid var(--border);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section-block { animation: fadeUp 0.4s ease both; }
+
+@media (max-width: 580px) {
+  .inputs-card { padding: 1.25rem; }
+  .age-grid { grid-template-columns: repeat(3,1fr); }
+  .age-grid-row2 { grid-template-columns: repeat(3,1fr); }
+}
 </style>
 </head>
 <body>
@@ -262,124 +398,234 @@
 <section class="hero">
   <p class="hero-eyebrow">Retirement Planning</p>
   <h1>See your money<br><em>compound</em> over time</h1>
-  <p class="hero-sub">Model your retirement wealth and income based on your savings, contributions, and timeline.</p>
+  <p class="hero-sub">Enter your numbers and explore how retirement age shapes your wealth and income.</p>
 </section>
+
+<nav class="section-nav">
+  <a href="#s1" class="nav-pill"><span class="pill-num">1</span>Your data</a>
+  <a href="#s2" class="nav-pill"><span class="pill-num">2</span>Wealth accumulation</a>
+  <a href="#s3" class="nav-pill"><span class="pill-num">3</span>Retirement income</a>
+</nav>
 
 <div class="main">
 
-  <div class="inputs-section">
-    <h2 class="section-title">Your numbers</h2>
-    <p class="section-sub">Adjust any field — results update instantly.</p>
-    <div class="inputs-grid">
-      <div class="field">
-        <label>Current age</label>
-        <div class="field-inner">
-          <input type="number" id="i-cur" value="36" min="18" max="70">
-          <span class="field-suffix">yrs</span>
-        </div>
+  <!-- ── SECTION 1: YOUR DATA ── -->
+  <div class="section-block" id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-heading">
+        Your data
+        <small>Adjust any field — everything updates instantly.</small>
       </div>
-      <div class="field">
-        <label>Retirement age</label>
-        <div class="field-inner">
-          <input type="number" id="i-ret" value="60" min="40" max="80">
-          <span class="field-suffix">yrs</span>
+    </div>
+    <div class="inputs-card">
+      <div class="inputs-grid">
+
+        <div class="field">
+          <div class="field-label-row"><label>Current age</label></div>
+          <div class="field-inner">
+            <input type="number" id="i-cur" class="plain" value="36" min="18" max="70">
+            <span class="field-suffix">yrs</span>
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label>Life expectancy</label>
-        <div class="field-inner">
-          <input type="number" id="i-die" value="80" min="60" max="100">
-          <span class="field-suffix">yrs</span>
+
+        <div class="field">
+          <div class="field-label-row"><label>Planned retirement age</label></div>
+          <div class="field-inner">
+            <input type="number" id="i-ret" class="plain" value="60" min="40" max="80">
+            <span class="field-suffix">yrs</span>
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label>Current savings</label>
-        <div class="field-inner">
-          <span class="field-prefix">$</span>
-          <input type="number" id="i-bal" value="500000" min="0" step="5000">
+
+        <div class="field">
+          <div class="field-label-row"><label>Life expectancy</label></div>
+          <div class="field-inner">
+            <input type="number" id="i-die" class="plain" value="80" min="60" max="100">
+            <span class="field-suffix">yrs</span>
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label>Annual contribution</label>
-        <div class="field-inner">
-          <span class="field-prefix">$</span>
-          <input type="number" id="i-con" value="32000" min="0" step="1000">
+
+        <div class="field">
+          <div class="field-label-row"><label>Current investments</label></div>
+          <div class="field-inner">
+            <span class="field-prefix">$</span>
+            <input type="text" id="i-bal" class="has-prefix" value="500,000" inputmode="numeric">
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label>Growth rate (accumulation)</label>
-        <div class="field-inner">
-          <input type="number" id="i-rate" value="7" min="1" max="20" step="0.5">
-          <span class="field-suffix">%/yr</span>
+
+        <div class="field">
+          <div class="field-label-row"><label>Annual contribution</label></div>
+          <div class="field-inner">
+            <span class="field-prefix">$</span>
+            <input type="text" id="i-con" class="has-prefix" value="32,000" inputmode="numeric">
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <label>Growth rate (retirement)</label>
-        <div class="field-inner">
-          <input type="number" id="i-rrate" value="5" min="0" max="15" step="0.5">
-          <span class="field-suffix">%/yr</span>
+
+        <div class="field">
+          <div class="field-label-row">
+            <label>Growth rate (accumulation)</label>
+            <button class="info-btn" tabindex="-1">i
+              <div class="tooltip-popup">Your expected annual return while working. A common assumption is 7%, reflecting long-run stock market averages. Applies from today until you retire.</div>
+            </button>
+          </div>
+          <div class="field-inner">
+            <input type="number" id="i-rate" class="has-suffix" value="7" min="1" max="20" step="0.5">
+            <span class="field-suffix">%/yr</span>
+          </div>
         </div>
+
+        <div class="field">
+          <div class="field-label-row">
+            <label>Growth rate (retirement)</label>
+            <button class="info-btn" tabindex="-1">i
+              <div class="tooltip-popup">Expected return after you retire. Typically lower — retirees shift toward bonds and dividends to reduce risk. A common assumption is 4–5%.</div>
+            </button>
+          </div>
+          <div class="field-inner">
+            <input type="number" id="i-rrate" class="has-suffix" value="5" min="0" max="15" step="0.5">
+            <span class="field-suffix">%/yr</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <div class="results-grid">
-    <div class="result-card">
-      <div class="result-label">Years to retire</div>
-      <div class="result-value" id="r-yrs">—</div>
-      <div class="result-sub" id="r-yrs-sub"></div>
-    </div>
-    <div class="result-card">
-      <div class="result-label">Nest egg</div>
-      <div class="result-value" id="r-nest">—</div>
-      <div class="result-sub" id="r-nest-sub"></div>
-    </div>
-    <div class="result-card accent">
-      <div class="result-label">4% rule income</div>
-      <div class="result-value" id="r-4pct">—</div>
-      <div class="result-sub" id="r-4pct-sub"></div>
-    </div>
-    <div class="result-card green">
-      <div class="result-label">Drawdown income</div>
-      <div class="result-value" id="r-fd">—</div>
-      <div class="result-sub" id="r-fd-sub"></div>
-    </div>
-  </div>
+  <hr class="section-divider">
 
-  <div class="chart-panel">
-    <div class="chart-header">
-      <h2 class="chart-title">Wealth accumulation</h2>
-      <div class="chart-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:#444441"></span>Initial savings</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#85b7eb"></span>Contributions</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#5dcaa5"></span>Interest earned</div>
+  <!-- ── SECTION 2: WEALTH ACCUMULATION ── -->
+  <div class="section-block" id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-heading">
+        Wealth accumulation
+        <small>How much money will I have at retirement?</small>
       </div>
     </div>
-    <div class="chart-wrap"><canvas id="c-accum"></canvas></div>
-  </div>
 
-  <div class="chart-panel">
-    <div class="chart-header">
-      <h2 class="chart-title">Retirement income over time</h2>
-      <div class="chart-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:#c2955a"></span>4% withdrawal</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#5dcaa5"></span>Drawdown withdrawal</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#afa9ec"></span>Portfolio balance (4%)</div>
+    <div class="accum-summary">
+      <div class="stat-card">
+        <div class="stat-label">Years to retirement</div>
+        <div class="stat-value" id="a-yrs">—</div>
+        <div class="stat-sub" id="a-yrs-sub"></div>
+      </div>
+      <div class="stat-card hl-blue">
+        <div class="stat-label">Nest egg at retirement</div>
+        <div class="stat-value" id="a-nest">—</div>
+        <div class="stat-sub" id="a-nest-sub"></div>
+      </div>
+      <div class="stat-card hl-green">
+        <div class="stat-label">Total interest earned</div>
+        <div class="stat-value" id="a-int">—</div>
+        <div class="stat-sub" id="a-int-sub"></div>
+      </div>
+      <div class="stat-card hl-accent">
+        <div class="stat-label">Interest as % of nest egg</div>
+        <div class="stat-value" id="a-pct">—</div>
+        <div class="stat-sub">market does the heavy lifting</div>
       </div>
     </div>
-    <div class="chart-wrap"><canvas id="c-income"></canvas></div>
+
+    <div class="chart-panel">
+      <div class="chart-header">
+        <span class="chart-title">Portfolio growth year by year</span>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:#444441"></span>Initial investments</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#85b7eb"></span>Contributions</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#5dcaa5"></span>Interest earned</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:300px"><canvas id="c-accum"></canvas></div>
+    </div>
   </div>
 
-  <div class="explainer-grid">
-    <div class="explainer-card">
-      <span class="badge badge-gold">4% Rule</span>
-      <h3>The safe withdrawal strategy</h3>
-      <p>Withdraw 4% of your starting balance every year. Your remaining portfolio keeps growing, so you'll likely leave a substantial estate. Considered the "safe" rate designed to survive a 30-year retirement.</p>
+  <hr class="section-divider">
+
+  <!-- ── SECTION 3: RETIREMENT INCOME SENSITIVITY ── -->
+  <div class="section-block" id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-heading">
+        Retirement income sensitivity
+        <small>When should I retire? How much will I have to live off of?</small>
+      </div>
     </div>
-    <div class="explainer-card">
-      <span class="badge badge-green">Fixed Drawdown</span>
-      <h3>The spend-it-all strategy</h3>
-      <p>Withdraw exactly enough each year to reach $0 at your life expectancy. Since the remaining balance keeps compounding, your annual withdrawals increase over time — giving you more to spend as you age.</p>
+
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem;">Select a retirement age to see projected income. Your planned age is pre-selected.</p>
+
+    <div class="age-grid-single" id="age-grid-single"></div>
+
+    <div class="income-panels">
+      <div class="income-panel">
+        <div class="income-panel-label">4% rule</div>
+        <div class="income-panel-amount blue" id="ip-4amt">—</div>
+        <div class="income-panel-desc">Fixed 4% of starting balance, portfolio keeps growing</div>
+        <div class="income-panel-stats">
+          <div class="ipstat"><div class="ipl">Starting balance</div><div class="ipv" id="ip-4bal">—</div></div>
+          <div class="ipstat"><div class="ipl">Balance at <span id="ip-4die">80</span></div><div class="ipv" id="ip-4end">—</div></div>
+          <div class="ipstat"><div class="ipl">Total withdrawn</div><div class="ipv" id="ip-4tot">—</div></div>
+          <div class="ipstat"><div class="ipl">Years of income</div><div class="ipv" id="ip-4yrs">—</div></div>
+        </div>
+      </div>
+      <div class="income-panel">
+        <div class="income-panel-label">Fixed drawdown</div>
+        <div class="income-panel-amount green" id="ip-fdamt">—</div>
+        <div class="income-panel-desc" id="ip-fddesc">Withdrawals rise each year as balance grows</div>
+        <div class="income-panel-stats">
+          <div class="ipstat"><div class="ipl">Starting balance</div><div class="ipv" id="ip-fdbal">—</div></div>
+          <div class="ipstat"><div class="ipl">Balance at <span id="ip-fddie">80</span></div><div class="ipv" id="ip-fdend">—</div></div>
+          <div class="ipstat"><div class="ipl">Total withdrawn</div><div class="ipv" id="ip-fdtot">—</div></div>
+          <div class="ipstat"><div class="ipl">Years of income</div><div class="ipv" id="ip-fdyrs">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;">
+      <div class="legend-item"><span class="legend-dot" style="background:rgba(133,183,235,0.7)"></span>Portfolio balance</div>
+      <div class="legend-item"><span class="legend-dot" style="background:rgba(93,202,165,0.7)"></span>Annual withdrawal</div>
+    </div>
+
+    <div class="income-charts">
+      <div class="income-chart-panel">
+        <div class="income-chart-title">4% rule — portfolio over time</div>
+        <div class="income-chart-wrap"><canvas id="c-4pct"></canvas></div>
+      </div>
+      <div class="income-chart-panel">
+        <div class="income-chart-title">Fixed drawdown — portfolio over time</div>
+        <div class="income-chart-wrap"><canvas id="c-fd"></canvas></div>
+      </div>
+    </div>
+
+    <div class="explainer-grid">
+      <div class="explainer-card">
+        <span class="badge badge-blue">4% Rule</span>
+        <h3>The safe withdrawal strategy</h3>
+        <p>Withdraw 4% of your starting balance every year. Your portfolio keeps growing — you'll likely leave a substantial estate. Designed to last 30+ years.</p>
+      </div>
+      <div class="explainer-card">
+        <span class="badge badge-green">Fixed Drawdown</span>
+        <h3>The spend-it-all strategy</h3>
+        <p>Withdraw enough each year to reach $0 at your life expectancy. Since the remaining balance keeps compounding, withdrawals increase over time — more to spend as you age.</p>
+      </div>
+    </div>
+
+    <div class="sa-table-panel">
+      <div class="sa-table-header">Full sensitivity table — ±10 years from your planned retirement age</div>
+      <div class="sa-table-wrap">
+        <table class="sa-table">
+          <thead>
+            <tr>
+              <th>Retire at</th>
+              <th>Years working</th>
+              <th>Nest egg</th>
+              <th>vs. your plan</th>
+              <th>4% income / yr</th>
+              <th>Drawdown avg / yr</th>
+            </tr>
+          </thead>
+          <tbody id="sa-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -390,103 +636,223 @@
 <script>
 const $ = id => document.getElementById(id);
 
-function fmtFull(n) {
-  if (!isFinite(n)) return '—';
-  return '$' + Math.round(n).toLocaleString();
-}
+function parseMoney(s) { return parseFloat(String(s).replace(/[^0-9.]/g,'')) || 0; }
+function fmtComma(n)   { return Math.round(n).toLocaleString('en-US'); }
+function fmtFull(n)    { return isFinite(n) ? '$'+Math.round(n).toLocaleString() : '—'; }
 function fmtM(n) {
   if (!isFinite(n)) return '—';
-  if (Math.abs(n) >= 1e6) return '$' + (Math.round(n/10000)/100).toFixed(2) + 'M';
-  return '$' + Math.round(n/1000) + 'k';
+  if (Math.abs(n) >= 1e6) return '$'+(Math.round(n/10000)/100).toFixed(2)+'M';
+  return '$'+Math.round(n/1000)+'k';
 }
 function fmtK(n) {
   if (!isFinite(n)) return '—';
-  if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toFixed(2)+'M';
-  if (Math.abs(n) >= 1000) return '$' + Math.round(n/1000)+'k';
-  return '$' + Math.round(n);
+  if (Math.abs(n) >= 1e6) return '$'+(n/1e6).toFixed(2)+'M';
+  if (Math.abs(n) >= 1000) return '$'+Math.round(n/1000)+'k';
+  return '$'+Math.round(n);
 }
+function pct(a,b) { return b ? Math.round(a/b*100)+'%' : '—'; }
 
-let accumChart, incomeChart;
+['i-bal','i-con'].forEach(id => {
+  const el = $(id);
+  el.addEventListener('focus', () => { el.value = parseMoney(el.value) || ''; });
+  el.addEventListener('blur',  () => { const v=parseMoney(el.value); el.value=v?fmtComma(v):''; update(); });
+  el.addEventListener('input', update);
+});
 
-function nest(P, r, c, yrs) {
+let accumCh, ch4, chFD;
+let selectedAge = 60;
+
+function calcNest(P, r, c, yrs) {
   if (yrs <= 0) return P;
-  return P * Math.pow(1+r, yrs) + c * ((Math.pow(1+r, yrs)-1)/r);
+  return P * Math.pow(1+r, yrs) + c * ((Math.pow(1+r,yrs)-1)/r);
 }
 
-function sim4(nestEgg, rr, retAge, dieAge) {
-  const w = nestEgg * 0.04;
+function sim4pct(n, rr, retAge, dieAge) {
+  const w = n * 0.04;
   const labels=[], bals=[], ws=[];
-  let b = nestEgg;
-  for (let a = retAge; a <= dieAge; a++) {
+  let b = n;
+  for (let a=retAge; a<=dieAge; a++) {
     labels.push('Age '+a); bals.push(Math.round(b)); ws.push(Math.round(w));
-    b = (b - w) * (1+rr);
+    b = (b-w)*(1+rr);
   }
-  return { w, labels, bals, ws, endBal: bals[bals.length-1] };
+  return { w, labels, bals, ws, endBal: bals[bals.length-1], total: w*(dieAge-retAge+1) };
 }
 
-function simFD(nestEgg, rr, retAge, dieAge) {
+function simFD(n, rr, retAge, dieAge) {
   const labels=[], bals=[], ws=[];
-  let b = nestEgg, total=0;
-  for (let a = retAge; a <= dieAge; a++) {
-    const rem = dieAge - a + 1;
-    const w = b / rem;
+  let b=n, total=0;
+  for (let a=retAge; a<=dieAge; a++) {
+    const rem = dieAge-a+1;
+    const w = b/rem;
     labels.push('Age '+a); bals.push(Math.round(b)); ws.push(Math.round(w));
-    total += w;
-    b = (b - w) * (1+rr);
+    total+=w; b=(b-w)*(1+rr);
   }
-  return { labels, bals, ws, avgW: total/(dieAge-retAge+1) };
+  return { labels, bals, ws, avgW: total/(dieAge-retAge+1), total };
+}
+
+function buildAgeCards(curAge, retAge, dieAge, P, contrib, r, rr) {
+  const minA = Math.max(curAge+1, retAge-10);
+  const maxA = retAge+10;
+  const ages = [];
+  for (let a=minA; a<=maxA; a++) ages.push(a);
+
+  const el = $('age-grid-single');
+  el.innerHTML = '';
+  ages.forEach(a => {
+    const n = calcNest(P, r, contrib, a - curAge);
+    const div = document.createElement('div');
+    div.className = 'age-card' + (a === selectedAge ? ' active' : '');
+    div.innerHTML = `<div class="ac-age">Age ${a}</div><div class="ac-bal">${fmtM(n)}</div>`;
+    div.onclick = () => { selectedAge = a; buildAgeCards(curAge,retAge,dieAge,P,contrib,r,rr); updateIncome(curAge,retAge,dieAge,P,contrib,r,rr); };
+    el.appendChild(div);
+  });
+}
+
+function updateIncome(curAge, retAge, dieAge, P, contrib, r, rr) {
+  const a = selectedAge;
+  const n = calcNest(P, r, contrib, a - curAge);
+  const incYrs = dieAge - a + 1;
+
+  const r4  = sim4pct(n, rr, a, dieAge);
+  const rfd = simFD(n, rr, a, dieAge);
+
+  $('ip-4amt').textContent  = fmtFull(r4.w) + '/yr';
+  $('ip-4bal').textContent  = fmtFull(n);
+  $('ip-4end').textContent  = fmtFull(r4.endBal);
+  $('ip-4tot').textContent  = fmtFull(r4.total);
+  $('ip-4yrs').textContent  = incYrs + ' years';
+  $('ip-4die').textContent  = dieAge;
+
+  $('ip-fdamt').textContent = fmtFull(Math.round(rfd.avgW)) + '/yr avg';
+  $('ip-fdbal').textContent = fmtFull(n);
+  $('ip-fdend').textContent = '$0 (fully spent)';
+  $('ip-fdtot').textContent = fmtFull(rfd.total);
+  $('ip-fdyrs').textContent = incYrs + ' years';
+  $('ip-fddie').textContent = dieAge;
+  $('ip-fddesc').textContent = `Withdrawals rise each year as balance grows at ${Math.round(rr*100)}%`;
+
+  const scaleOpts = (axis2label) => ({
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' '+c.dataset.label+': '+fmtFull(c.parsed.y) } } },
+    scales: {
+      x: { ticks: { autoSkip: true, maxTicksLimit: 6, color: '#5c5b56', font: { size: 10 } }, grid: { display: false }, border: { color: 'rgba(255,255,255,0.06)' } },
+      y: { ticks: { callback: v => v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1000).toFixed(0)+'k', color: '#5c5b56', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+      y2: { position: 'right', ticks: { callback: v => '$'+(v/1000).toFixed(0)+'k', color: '#5c5b56', font: { size: 10 } }, grid: { display: false }, border: { display: false } }
+    }
+  });
+
+  if (ch4) ch4.destroy();
+  ch4 = new Chart($('c-4pct').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: r4.labels,
+      datasets: [
+        { label: 'Portfolio balance', data: r4.bals, backgroundColor: 'rgba(133,183,235,0.65)', yAxisID: 'y', order: 2 },
+        { label: 'Annual withdrawal', data: r4.ws,   type: 'line', borderColor: 'rgba(93,202,165,0.9)', backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, yAxisID: 'y2', order: 1 }
+      ]
+    },
+    options: scaleOpts()
+  });
+
+  if (chFD) chFD.destroy();
+  chFD = new Chart($('c-fd').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: rfd.labels,
+      datasets: [
+        { label: 'Portfolio balance', data: rfd.bals, backgroundColor: 'rgba(93,202,165,0.55)', yAxisID: 'y', order: 2 },
+        { label: 'Annual withdrawal', data: rfd.ws,   type: 'line', borderColor: 'rgba(133,183,235,0.9)', backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, yAxisID: 'y2', order: 1 }
+      ]
+    },
+    options: scaleOpts()
+  });
+}
+
+function buildSATable(curAge, retAge, dieAge, P, contrib, r, rr) {
+  const minA = Math.max(curAge+1, retAge-10);
+  const maxA = retAge+10;
+  const baseNest = calcNest(P, r, contrib, retAge - curAge);
+  const tbody = $('sa-tbody');
+  tbody.innerHTML = '';
+
+  for (let a=minA; a<=maxA; a++) {
+    const yrs = a - curAge;
+    const n = calcNest(P, r, contrib, yrs);
+    const r4  = sim4pct(n, rr, a, dieAge);
+    const rfd = simFD(n, rr, a, dieAge);
+    const diff = n - baseNest;
+    const isMe = a === retAge;
+
+    let badge = '';
+    if (isMe)        badge = '<span class="sa-badge me">your plan</span>';
+    else if (diff>0) badge = `<span class="sa-badge plus">+${fmtM(diff)}</span>`;
+    else             badge = `<span class="sa-badge minus">${fmtM(diff)}</span>`;
+
+    const tr = document.createElement('tr');
+    if (isMe) tr.className = 'sa-me';
+    tr.innerHTML = `
+      <td>Age ${a}${badge}</td>
+      <td>${yrs} yrs</td>
+      <td>${fmtM(n)}</td>
+      <td>${isMe ? '—' : (diff>=0?'+':'')+fmtFull(diff)}</td>
+      <td>${fmtK(r4.w)}/yr</td>
+      <td>${fmtK(rfd.avgW)}/yr avg</td>
+    `;
+    tbody.appendChild(tr);
+  }
 }
 
 function update() {
   const curAge  = +$('i-cur').value;
   const retAge  = +$('i-ret').value;
   const dieAge  = +$('i-die').value;
-  const P       = +$('i-bal').value;
-  const contrib = +$('i-con').value;
+  const P       = parseMoney($('i-bal').value);
+  const contrib = parseMoney($('i-con').value);
   const r       = +$('i-rate').value / 100;
   const rr      = +$('i-rrate').value / 100;
 
-  if (retAge <= curAge || dieAge <= retAge) return;
+  if (retAge <= curAge || dieAge <= retAge || P <= 0) return;
+
+  // Clamp selectedAge to valid range
+  const minA = Math.max(curAge+1, retAge-10);
+  const maxA = retAge+10;
+  if (selectedAge < minA) selectedAge = retAge;
+  if (selectedAge > maxA) selectedAge = retAge;
 
   const yrs = retAge - curAge;
-  const nestEgg = nest(P, r, contrib, yrs);
-  const totalC = contrib * yrs;
-  const interest = nestEgg - P - totalC;
+  const n   = calcNest(P, r, contrib, yrs);
+  const totalC  = contrib * yrs;
+  const interest = n - P - totalC;
 
-  $('r-yrs').textContent = yrs;
-  $('r-yrs-sub').textContent = `${curAge} → ${retAge}`;
-  $('r-nest').textContent = fmtM(nestEgg);
-  $('r-nest-sub').textContent = fmtFull(totalC) + ' contributed';
-
-  const r4 = sim4(nestEgg, rr, retAge, dieAge);
-  $('r-4pct').textContent = fmtK(r4.w) + '/yr';
-  $('r-4pct-sub').textContent = '~' + fmtM(r4.endBal) + ' left at ' + dieAge;
-
-  const rfd = simFD(nestEgg, rr, retAge, dieAge);
-  $('r-fd').textContent = fmtK(rfd.avgW) + '/yr avg';
-  $('r-fd-sub').textContent = 'Balance reaches $0 at ' + dieAge;
+  // Section 2 stats
+  $('a-yrs').textContent     = yrs;
+  $('a-yrs-sub').textContent = `${curAge} → ${retAge}`;
+  $('a-nest').textContent    = fmtM(n);
+  $('a-nest-sub').textContent= fmtFull(totalC) + ' contributed';
+  $('a-int').textContent     = fmtM(interest);
+  $('a-int-sub').textContent = fmtFull(P) + ' initial';
+  $('a-pct').textContent     = pct(interest, n);
 
   // Accumulation chart
-  const aLabels=[], aInit=[], aCon=[], aInt=[];
-  for (let a = curAge; a <= retAge; a++) {
+  const aL=[], aI=[], aC=[], aInt=[];
+  for (let a=curAge; a<=retAge; a++) {
     const y = a - curAge;
-    const b = nest(P, r, contrib, y);
+    const b = calcNest(P, r, contrib, y);
     const tc = contrib * y;
-    aLabels.push('Age '+a);
-    aInit.push(Math.round(P));
-    aCon.push(Math.round(tc));
-    aInt.push(Math.round(Math.max(0, b - P - tc)));
+    aL.push('Age '+a);
+    aI.push(Math.round(P));
+    aC.push(Math.round(tc));
+    aInt.push(Math.round(Math.max(0, b-P-tc)));
   }
-
-  if (accumChart) accumChart.destroy();
-  accumChart = new Chart($('c-accum').getContext('2d'), {
+  if (accumCh) accumCh.destroy();
+  accumCh = new Chart($('c-accum').getContext('2d'), {
     type: 'bar',
     data: {
-      labels: aLabels,
+      labels: aL,
       datasets: [
-        { label: 'Initial savings',  data: aInit, backgroundColor: '#444441', stack: 'a' },
-        { label: 'Contributions',    data: aCon,  backgroundColor: '#85b7eb', stack: 'a' },
-        { label: 'Interest earned',  data: aInt,  backgroundColor: '#5dcaa5', stack: 'a' }
+        { label: 'Initial investments', data: aI,   backgroundColor: '#444441', stack: 'a' },
+        { label: 'Contributions',   data: aC,   backgroundColor: '#85b7eb', stack: 'a' },
+        { label: 'Interest earned', data: aInt, backgroundColor: '#5dcaa5', stack: 'a' }
       ]
     },
     options: {
@@ -499,31 +865,12 @@ function update() {
     }
   });
 
-  // Income chart
-  if (incomeChart) incomeChart.destroy();
-  incomeChart = new Chart($('c-income').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: r4.labels,
-      datasets: [
-        { label: '4% withdrawal',      data: r4.ws,  backgroundColor: 'rgba(194,149,90,0.75)',  stack: 'b', order: 2 },
-        { label: 'Drawdown withdrawal', data: rfd.ws, backgroundColor: 'rgba(93,202,165,0.75)', stack: 'c', order: 3 },
-        { label: 'Portfolio (4% rule)', data: r4.bals, type: 'line', borderColor: 'rgba(175,169,236,0.6)', backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, yAxisID: 'y2', order: 1 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' '+c.dataset.label+': '+fmtFull(c.parsed.y) } } },
-      scales: {
-        x: { ticks: { autoSkip: true, maxTicksLimit: 10, color: '#5c5b56', font: { size: 11 } }, grid: { display: false }, border: { color: 'rgba(255,255,255,0.06)' } },
-        y: { ticks: { callback: v => '$'+(v/1000).toFixed(0)+'k', color: '#5c5b56', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
-        y2: { position: 'right', ticks: { callback: v => v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+(v/1000).toFixed(0)+'k', color: '#5c5b56', font: { size: 10 } }, grid: { display: false }, border: { display: false } }
-      }
-    }
-  });
+  buildAgeCards(curAge, retAge, dieAge, P, contrib, r, rr);
+  updateIncome(curAge, retAge, dieAge, P, contrib, r, rr);
+  buildSATable(curAge, retAge, dieAge, P, contrib, r, rr);
 }
 
-['i-cur','i-ret','i-die','i-bal','i-con','i-rate','i-rrate'].forEach(id => {
+['i-cur','i-ret','i-die','i-rate','i-rrate'].forEach(id => {
   $(id).addEventListener('input', update);
 });
 update();
