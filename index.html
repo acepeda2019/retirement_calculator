@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compound — Retirement Calculator</title>
+<meta name="description" content="See how your investments compound over time. Model your retirement wealth, income, and the real cost of retiring earlier or later.">
+<meta property="og:title" content="Compound — Retirement Calculator">
+<meta property="og:description" content="See how your investments compound over time. Model your retirement wealth, income, and the real cost of retiring earlier or later.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Compound — Retirement Calculator">
+<meta name="twitter:description" content="See how your investments compound over time. Model your retirement wealth, income, and the real cost of retiring earlier or later.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <!-- Google tag (gtag.js) -->
@@ -147,11 +154,15 @@ body {
   gap: 1.25rem;
 }
 .field { display: flex; flex-direction: column; gap: 6px; }
-.field-label-row { display: flex; align-items: center; gap: 5px; }
+.field-label-row { display: flex; align-items: center; gap: 5px; min-width: 0; }
 .field-label-row label {
   font-size: 11px; font-weight: 500;
   letter-spacing: 0.09em; text-transform: uppercase;
   color: var(--text3);
+}
+.field-label-row .monthly-hint {
+  font-size: 10px; color: var(--text3); font-weight: 400;
+  letter-spacing: 0; white-space: nowrap; margin-left: auto; flex-shrink: 0;
 }
 .info-btn {
   width: 14px; height: 14px; border-radius: 50%;
@@ -358,14 +369,42 @@ table.sa-table td:first-child { font-weight: 500; color: var(--text); }
 table.sa-table tr.sa-me td { background: var(--blue-bg); }
 table.sa-table tr.sa-me td:first-child { color: var(--blue); }
 table.sa-table tr.sa-me td { color: rgba(133,183,235,0.85); }
+table.sa-table tr.sa-selected td { background: rgba(93,202,165,0.08); color: rgba(93,202,165,0.85); }
+table.sa-table tr.sa-selected td:first-child { color: var(--green); }
+table.sa-table tr.sa-me.sa-selected td { background: rgba(93,202,165,0.08); color: rgba(93,202,165,0.85); }
 .sa-badge {
   display: inline-block; font-size: 10px; font-weight: 500;
   padding: 2px 7px; border-radius: 3px; margin-left: 6px;
   vertical-align: middle;
 }
-.sa-badge.plus  { background: var(--green-bg);         color: var(--green); }
-.sa-badge.minus { background: rgba(224,75,74,0.1);      color: #e24b4a; }
-.sa-badge.me    { background: var(--blue-bg);           color: var(--blue); }
+.sa-badge.plus  { background: var(--green-bg);    color: var(--green); }
+.sa-badge.minus { background: rgba(224,75,74,0.1); color: #e24b4a; }
+.sa-badge.me    { background: var(--blue-bg);      color: var(--blue); }
+
+/* Validation */
+.error-msg {
+  display: none; font-size: 12px; color: #e24b4a;
+  background: rgba(224,75,74,0.08); border: 1px solid rgba(224,75,74,0.2);
+  border-radius: 8px; padding: 10px 14px; margin-top: 1rem;
+}
+.error-msg.visible { display: block; }
+
+/* Share button */
+.share-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 24px;
+  border: 1px solid var(--border2); background: var(--bg3);
+  color: var(--text); font-size: 14px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  transition: all 0.15s; letter-spacing: 0.01em;
+}
+.share-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+.share-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.share-toast {
+  display: inline-block; font-size: 13px; color: var(--green);
+  opacity: 0; transition: opacity 0.3s;
+}
+.share-toast.show { opacity: 1; }
 
 /* Explainer cards */
 .explainer-grid {
@@ -440,7 +479,7 @@ footer {
         <div class="field">
           <div class="field-label-row"><label>Current age</label></div>
           <div class="field-inner">
-            <input type="number" id="i-cur" class="plain" value="36" min="18" max="70">
+            <input type="number" id="i-cur" class="plain" value="25" min="18" max="70">
             <span class="field-suffix">yrs</span>
           </div>
         </div>
@@ -465,15 +504,18 @@ footer {
           <div class="field-label-row"><label>Current investments</label></div>
           <div class="field-inner">
             <span class="field-prefix">$</span>
-            <input type="text" id="i-bal" class="has-prefix" value="500,000" inputmode="numeric">
+            <input type="text" id="i-bal" class="has-prefix" value="10,000" inputmode="numeric">
           </div>
         </div>
 
         <div class="field">
-          <div class="field-label-row"><label>Annual contribution</label></div>
+          <div class="field-label-row" style="justify-content:space-between;">
+            <label>Annual contribution</label>
+            <span class="monthly-hint" id="i-con-monthly">$500 / mo</span>
+          </div>
           <div class="field-inner">
             <span class="field-prefix">$</span>
-            <input type="text" id="i-con" class="has-prefix" value="32,000" inputmode="numeric">
+            <input type="text" id="i-con" class="has-prefix" value="6,000" inputmode="numeric">
           </div>
         </div>
 
@@ -498,12 +540,20 @@ footer {
             </button>
           </div>
           <div class="field-inner">
-            <input type="number" id="i-rrate" class="has-suffix" value="5" min="0" max="15" step="0.5">
+            <input type="number" id="i-rrate" class="has-suffix" value="4" min="0" max="15" step="0.5">
             <span class="field-suffix">%/yr</span>
           </div>
         </div>
 
       </div>
+    </div>
+    <div id="input-error" class="error-msg">Life expectancy must be greater than your retirement age.</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:1.25rem;">
+      <button class="share-btn" onclick="shareScenario()">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="3" cy="8" r="1.5"/><line x1="4.4" y1="8.7" x2="10.6" y2="12.3"/><line x1="10.6" y1="3.7" x2="4.4" y2="7.3"/></svg>
+        Share my scenario
+      </button>
+      <span class="share-toast" id="share-toast">Link copied!</span>
     </div>
   </div>
 
@@ -626,7 +676,13 @@ footer {
     </div>
 
     <div class="sa-table-panel">
-      <div class="sa-table-header">Full sensitivity table — ±10 years from your planned retirement age</div>
+      <div class="sa-table-header">
+        Full sensitivity table — ±10 years from your planned retirement age
+        <span style="font-size:11px;color:var(--text3);margin-left:10px;">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(133,183,235,0.25);margin-right:3px;vertical-align:middle;"></span>your plan
+          <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:rgba(93,202,165,0.15);margin-left:8px;margin-right:3px;vertical-align:middle;"></span>selected age
+        </span>
+      </div>
       <div class="sa-table-wrap">
         <table class="sa-table">
           <thead>
@@ -647,7 +703,14 @@ footer {
 
 </div>
 
-<footer>Built for educational purposes only. Not financial advice — consult a qualified financial advisor.</footer>
+<footer>
+  <div style="margin-bottom:0.75rem;">
+    <a href="https://www.linkedin.com/in/acepeda" target="_blank" rel="noopener" style="color:var(--text3);text-decoration:none;margin:0 10px;transition:color 0.15s;" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">LinkedIn</a>
+    <span style="color:var(--border2);">·</span>
+    <a href="https://github.com/acepeda" target="_blank" rel="noopener" style="color:var(--text3);text-decoration:none;margin:0 10px;transition:color 0.15s;" onmouseover="this.style.color='var(--text2)'" onmouseout="this.style.color='var(--text3)'">GitHub</a>
+  </div>
+  <div>A personal project by Adrian Cepeda — not financial advice. Always consult a qualified financial advisor.</div>
+</footer>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -672,8 +735,18 @@ function pct(a,b) { return b ? Math.round(a/b*100)+'%' : '—'; }
   const el = $(id);
   el.addEventListener('focus', () => { el.value = parseMoney(el.value) || ''; });
   el.addEventListener('blur',  () => { const v=parseMoney(el.value); el.value=v?fmtComma(v):''; update(); });
-  el.addEventListener('input', update);
+  el.addEventListener('input', () => {
+    update();
+    if (id === 'i-con') updateMonthlyHint();
+  });
 });
+
+function updateMonthlyHint() {
+  const annual = parseMoney($('i-con').value);
+  const monthly = Math.round(annual / 12);
+  const hint = $('i-con-monthly');
+  if (hint) hint.textContent = annual > 0 ? '$' + monthly.toLocaleString() + ' / mo' : '';
+}
 
 let accumCh, ch4, chFD;
 let selectedAge = 60;
@@ -809,6 +882,7 @@ function buildSATable(curAge, retAge, dieAge, P, contrib, r, rr) {
     const rfd = simFD(n, rr, a, dieAge);
     const diff = n - baseNest;
     const isMe = a === retAge;
+    const isSelected = a === selectedAge;
 
     let badge = '';
     if (isMe)        badge = '<span class="sa-badge me">your plan</span>';
@@ -816,7 +890,11 @@ function buildSATable(curAge, retAge, dieAge, P, contrib, r, rr) {
     else             badge = `<span class="sa-badge minus">${fmtM(diff)}</span>`;
 
     const tr = document.createElement('tr');
-    if (isMe) tr.className = 'sa-me';
+    const classes = [];
+    if (isMe) classes.push('sa-me');
+    if (isSelected) classes.push('sa-selected');
+    if (classes.length) tr.className = classes.join(' ');
+
     tr.innerHTML = `
       <td>Age ${a}${badge}</td>
       <td>${yrs} yrs</td>
@@ -838,7 +916,18 @@ function update() {
   const r       = +$('i-rate').value / 100;
   const rr      = +$('i-rrate').value / 100;
 
-  if (retAge <= curAge || dieAge <= retAge || P <= 0) return;
+  // Validation
+  const errEl = $('input-error');
+  if (dieAge <= retAge) {
+    errEl.textContent = 'Life expectancy must be greater than your retirement age.';
+    errEl.classList.add('visible'); return;
+  }
+  if (retAge <= curAge) {
+    errEl.textContent = 'Retirement age must be greater than your current age.';
+    errEl.classList.add('visible'); return;
+  }
+  errEl.classList.remove('visible');
+  if (P <= 0) return;
 
   // Clamp selectedAge to valid range
   const minA = Math.max(curAge+1, retAge-10);
@@ -900,6 +989,37 @@ function update() {
 ['i-cur','i-ret','i-die','i-rate','i-rrate'].forEach(id => {
   $(id).addEventListener('input', update);
 });
+
+function shareScenario() {
+  const params = new URLSearchParams({
+    age:   $('i-cur').value,
+    ret:   $('i-ret').value,
+    die:   $('i-die').value,
+    bal:   parseMoney($('i-bal').value),
+    con:   parseMoney($('i-con').value),
+    rate:  $('i-rate').value,
+    rrate: $('i-rrate').value
+  });
+  const url = window.location.origin + window.location.pathname + '?' + params.toString();
+  navigator.clipboard.writeText(url).then(() => {
+    const toast = $('share-toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+}
+
+// Load URL params if present
+(function loadParams() {
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('age'))   { $('i-cur').value   = p.get('age'); }
+  if (p.get('ret'))   { $('i-ret').value   = p.get('ret'); }
+  if (p.get('die'))   { $('i-die').value   = p.get('die'); }
+  if (p.get('rate'))  { $('i-rate').value  = p.get('rate'); }
+  if (p.get('rrate')) { $('i-rrate').value = p.get('rrate'); }
+  if (p.get('bal'))   { $('i-bal').value   = fmtComma(+p.get('bal')); updateMonthlyHint(); }
+  if (p.get('con'))   { $('i-con').value   = fmtComma(+p.get('con')); updateMonthlyHint(); }
+})();
+
 update();
 </script>
 </body>
