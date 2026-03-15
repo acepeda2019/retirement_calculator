@@ -245,10 +245,18 @@ body {
 .age-grid-single {
   display: flex; gap: 6px; flex-wrap: nowrap;
   overflow-x: auto; margin-bottom: 1.5rem;
-  padding-bottom: 2px;
-  scrollbar-width: none;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
 }
-.age-grid-single::-webkit-scrollbar { display: none; }
+.age-grid-single::-webkit-scrollbar { height: 3px; }
+.age-grid-single::-webkit-scrollbar-track { background: transparent; }
+.age-grid-single::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12); border-radius: 2px;
+}
+.age-grid-single::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.22);
+}
 .age-card {
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: 8px; padding: 0.45rem 0.7rem;
@@ -705,6 +713,17 @@ function buildAgeCards(curAge, retAge, dieAge, P, contrib, r, rr) {
     div.innerHTML = `<div class="ac-age">Age ${a}</div><div class="ac-bal">${fmtM(n)}</div>`;
     div.onclick = () => { selectedAge = a; buildAgeCards(curAge,retAge,dieAge,P,contrib,r,rr); updateIncome(curAge,retAge,dieAge,P,contrib,r,rr); };
     el.appendChild(div);
+  });
+
+  // Scroll selected card to center
+  requestAnimationFrame(() => {
+    const active = el.querySelector('.age-card.active');
+    if (active) {
+      const containerW = el.offsetWidth;
+      const cardLeft   = active.offsetLeft;
+      const cardW      = active.offsetWidth;
+      el.scrollLeft = cardLeft - (containerW / 2) + (cardW / 2);
+    }
   });
 }
 
