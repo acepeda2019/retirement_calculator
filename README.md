@@ -26,13 +26,15 @@ A single-file, interactive retirement planning tool. Model your nest egg, withdr
 This is a single HTML file — no server, no build step, no dependencies.
 
 **Option 1: Open directly in a browser**
+
+Download or clone the repo, then double-click `index.html` — or from the terminal:
 ```bash
-open /Users/acepeda/Documents/GitHub/retirement-calculator/index.html
+open index.html
 ```
 
 **Option 2: Serve locally** (useful if you want a clean URL to share on your network)
 ```bash
-cd /Users/acepeda/Documents/GitHub/retirement-calculator
+cd retirement-calculator
 python3 -m http.server 8080
 # then open http://localhost:8080
 ```
